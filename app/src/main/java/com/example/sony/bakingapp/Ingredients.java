@@ -1,10 +1,32 @@
 package com.example.sony.bakingapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by SONY on 8/3/2017.
  */
 
-public class Ingredients {
+public class Ingredients implements Parcelable{
+    public Ingredients(){}
+    protected Ingredients(Parcel in) {
+        quantity = in.readInt();
+        measure = in.readString();
+        ingredient = in.readString();
+    }
+
+    public static final Creator<Ingredients> CREATOR = new Creator<Ingredients>() {
+        @Override
+        public Ingredients createFromParcel(Parcel in) {
+            return new Ingredients(in);
+        }
+
+        @Override
+        public Ingredients[] newArray(int size) {
+            return new Ingredients[size];
+        }
+    };
+
     public int getQuantity() {
         return quantity;
     }
@@ -32,4 +54,16 @@ public class Ingredients {
     private int quantity;
     private String measure;
     private String ingredient;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(quantity);
+        dest.writeString(measure);
+        dest.writeString(ingredient);
+    }
 }

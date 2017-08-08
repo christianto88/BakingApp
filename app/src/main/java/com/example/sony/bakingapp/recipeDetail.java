@@ -14,19 +14,20 @@ public class recipeDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_detail);
+        setContentView(R.layout.recipe_detail);
 
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra("recipe")) {
                 recipeData = intentThatStartedThisActivity.getParcelableExtra("recipe");
+                getSupportActionBar().setTitle(recipeData.getRecipeName());
                 stepsData=recipeData.getStepsArrayList();
             }
         }
         recipeFragment rf=new recipeFragment(ingredientsData,stepsData);
         FragmentManager fm=getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.recipe_detail_container,rf).commit();
+        fm.beginTransaction().add(R.id.my_container,rf).commit();
 
 
     }

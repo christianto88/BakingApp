@@ -1,5 +1,7 @@
 package com.example.sony.bakingapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,9 +33,20 @@ public class recipeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        final Context context=getContext();
         View rootView=inflater.inflate(R.layout.recipe_fragment,container,false);
         mRecyclerView=(RecyclerView)rootView.findViewById(R.id.steps_recycler);
+        TextView z=(TextView)rootView.findViewById(R.id.tv_recipe_ingredients);
+        z.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Class destinationClass = detailActivity.class;
+                Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+                intentToStartDetailActivity.putExtra("ingredients", ingredientsData);
+                startActivity(intentToStartDetailActivity);
+            }
+        });
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);

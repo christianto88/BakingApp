@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:scrollbars="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/my_container2">-->
+    <!--</FrameLayout>-->
+    <TextView
+        android:id="@+id/tv_video_player"
+        android:adjustViewBounds="true"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="THIS IS VIDEO PLAYER"
+        android:visibility="invisible"
+        android:padding="16dp"
+
+        />
+
+
+</LinearLayout>
