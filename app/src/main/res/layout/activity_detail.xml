@@ -8,17 +8,6 @@
         android:layout_height="match_parent"
         android:id="@+id/my_container2">
     </FrameLayout>
-    <!--<TextView-->
-        <!--android:id="@+id/tv_video_player"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--style="@style/TextAppearance.AppCompat.Large"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="THIS IS VIDEO PLAYER"-->
-        <!--android:visibility="invisible"-->
-        <!--android:padding="16dp"-->
-
-        <!--/>-->
-
+   
 
 </LinearLayout>
