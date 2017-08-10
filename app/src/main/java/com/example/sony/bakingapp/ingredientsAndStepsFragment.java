@@ -1,6 +1,6 @@
 package com.example.sony.bakingapp;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,9 +26,15 @@ public class ingredientsAndStepsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        int idx=0;
         View rootView=inflater.inflate(R.layout.ingredientsandsteps_fragment,container,false);
         TextView tv1=(TextView)rootView.findViewById(R.id.tv_detail);
         TextView tv2=(TextView)rootView.findViewById(R.id.tv_video_player);
+        for(int a=0;a<ingredientsData.size();a++){
+            tv1.setVisibility(View.VISIBLE);
+            tv1.append(idx+1 +") "+ingredientsData.get(a).getQuantity()+ingredientsData.get(a).getMeasure()+"  "+ingredientsData.get(a).getIngredient()+"\n");
+        idx++;
+        }
         return rootView;
     }
 }

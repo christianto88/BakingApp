@@ -25,6 +25,10 @@ public class recipeFragment extends Fragment {
     private ArrayList<Steps> stepsData;
     private RecyclerView mRecyclerView;
     private StepsAdapter mStepsAdapter;
+    onClick mCallback;
+    public interface onClick{
+        void onClicked(ArrayList<Ingredients> i);
+    }
     public recipeFragment(ArrayList<Ingredients> i,ArrayList<Steps> s) {
         ingredientsData=i;
         stepsData=s;
@@ -40,11 +44,8 @@ public class recipeFragment extends Fragment {
         z.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCallback.onClicked(ingredientsData);
 
-                Class destinationClass = detailActivity.class;
-                Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-                intentToStartDetailActivity.putExtra("ingredients", ingredientsData);
-                startActivity(intentToStartDetailActivity);
             }
         });
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
@@ -54,5 +55,11 @@ public class recipeFragment extends Fragment {
         mStepsAdapter.setstepsData(stepsData);
         mRecyclerView.setAdapter(mStepsAdapter);
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallback=(onClick)context;
     }
 }

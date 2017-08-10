@@ -10,15 +10,15 @@ import java.util.ArrayList;
  */
 
 public class Recipe implements Parcelable{
- ArrayList<Ingredients> ingredientsArrayList;
-     ArrayList<Steps> stepsArrayList;
+    ArrayList<Steps> stepsArrayList;
+    ArrayList<Ingredients> ingredientsArrayList;
+
 public Recipe(){}
     protected Recipe(Parcel in) {
         servings = in.readInt();
         recipeName = in.readString();
         stepsArrayList=in.createTypedArrayList(Steps.CREATOR);
         ingredientsArrayList=in.createTypedArrayList(Ingredients.CREATOR);
-
     }
 
     public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
@@ -78,7 +78,7 @@ public Recipe(){}
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(servings);
         dest.writeString(recipeName);
-        dest.writeTypedList(ingredientsArrayList);
         dest.writeTypedList(stepsArrayList);
+        dest.writeTypedList(ingredientsArrayList);
     }
 }
