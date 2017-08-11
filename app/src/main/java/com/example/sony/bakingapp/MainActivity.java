@@ -2,6 +2,7 @@ package com.example.sony.bakingapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -13,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.example.sony.bakingapp.databinding.ActivityMainBinding;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -22,17 +25,17 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     private RecyclerView mRecyclerView;
     private RecipeAdapter recipeAdapter;
     private ProgressBar mLoadingIndicator;
+    ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-        mRecyclerView=(RecyclerView)findViewById(R.id.recyclerview);
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_main);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
+        binding.recyclerview.setLayoutManager(layoutManager);
+        binding.recyclerview.setHasFixedSize(true);
         recipeAdapter=new RecipeAdapter(this);
-        mRecyclerView.setAdapter(recipeAdapter);
+        binding.recyclerview.setAdapter(recipeAdapter);
         getSupportLoaderManager().initLoader(11,null,this);
 
     }
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         return new AsyncTaskLoader<ArrayList<Recipe>>(this) {
             @Override
             protected void onStartLoading() {
-                mLoadingIndicator.setVisibility(View.VISIBLE);
+                binding.pbLoadingIndicator.setVisibility(View.VISIBLE);
                 forceLoad();
                 super.onStartLoading();
             }
@@ -67,9 +70,9 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Recipe>> loader, ArrayList<Recipe> data) {
-        mRecyclerView.setVisibility(View.VISIBLE);
+        binding.recyclerview.setVisibility(View.VISIBLE);
         recipeAdapter.setRecipeData(data);
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        binding.pbLoadingIndicator.setVisibility(View.INVISIBLE);
 
     }
 

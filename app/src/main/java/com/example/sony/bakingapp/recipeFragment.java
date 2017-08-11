@@ -20,14 +20,20 @@ import static android.support.v7.recyclerview.R.attr.layoutManager;
  * Created by SONY on 8/7/2017.
  */
 
-public class recipeFragment extends Fragment {
+public class recipeFragment extends Fragment implements StepsAdapter.StepsAdapterOnClickHandler{
     private ArrayList<Ingredients> ingredientsData;
     private ArrayList<Steps> stepsData;
     private RecyclerView mRecyclerView;
     private StepsAdapter mStepsAdapter;
     onClick mCallback;
+
+    @Override
+    public void onClick(Steps stepsData) {
+        mCallback.onClicked(null,stepsData);
+    }
+
     public interface onClick{
-        void onClicked(ArrayList<Ingredients> i);
+        void onClicked(ArrayList<Ingredients> i,Steps s);
     }
     public recipeFragment(ArrayList<Ingredients> i,ArrayList<Steps> s) {
         ingredientsData=i;
@@ -44,14 +50,14 @@ public class recipeFragment extends Fragment {
         z.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onClicked(ingredientsData);
+                mCallback.onClicked(ingredientsData,null);
 
             }
         });
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mStepsAdapter=new StepsAdapter();
+        mStepsAdapter=new StepsAdapter(this);
         mStepsAdapter.setstepsData(stepsData);
         mRecyclerView.setAdapter(mStepsAdapter);
         return rootView;

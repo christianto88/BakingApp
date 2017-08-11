@@ -15,13 +15,16 @@ import java.util.ArrayList;
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapterViewHolder> {
 
     private ArrayList<Steps> stepsData;
-//    private final StepsAdapter.StepsAdapterOnClickHandler clickHandler;
+    private final StepsAdapterOnClickHandler clickHandler;
+
+    public StepsAdapter(StepsAdapterOnClickHandler clickHandler) {
+        this.clickHandler=clickHandler;
+    }
+
     public interface StepsAdapterOnClickHandler{
         void onClick(Steps stepsData);
     }
-    public StepsAdapter(){
-//        this.clickHandler=clickHandler;
-    }
+
 
     @Override
     public StepsAdapter.StepsAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,13 +54,14 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapter
         public StepsAdapterViewHolder(View itemView) {
             super(itemView);
             stepsText=(TextView)itemView.findViewById(R.id.tv_steps);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-//            int adapterPosition=getAdapterPosition();
-//            Steps sData=stepsData.get(adapterPosition);
-//            clickHandler.onClick(sData);
+            int adapterPosition=getAdapterPosition();
+            Steps sData=stepsData.get(adapterPosition);
+            clickHandler.onClick(sData);
         }
     }
 }
