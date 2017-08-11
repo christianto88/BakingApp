@@ -31,6 +31,7 @@ public class ingredientsAndStepsFragment extends Fragment {
         stepsData=s;
         this.stepsArrayList=stepsArrayList;
     }
+    public ingredientsAndStepsFragment(){}
 
     @Nullable
     @Override

@@ -39,6 +39,7 @@ public class recipeFragment extends Fragment implements StepsAdapter.StepsAdapte
         ingredientsData=i;
         stepsData=s;
     }
+    public recipeFragment(){}
 
     @Nullable
     @Override
