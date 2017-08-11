@@ -1,5 +1,6 @@
 package com.example.sony.bakingapp;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,12 +42,7 @@ public class ingredientsAndStepsFragment extends Fragment {
         TextView tv2=(TextView)rootView.findViewById(R.id.tv_video_player);
         ImageButton ib_next=(ImageButton)rootView.findViewById(R.id.next_button);
         ImageButton ib_prev=(ImageButton)rootView.findViewById(R.id.prev_button);
-        ib_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.onClicked(stepsData.getId()+1);
-            }
-        });
+
         if(ingredientsData!=null){
             for(int a=0;a<ingredientsData.size();a++){
                 tv1.setVisibility(View.VISIBLE);
@@ -66,8 +62,20 @@ public class ingredientsAndStepsFragment extends Fragment {
                 tv1.setVisibility(View.VISIBLE);
                 tv1.append(stepsData.getShortDescription()+"\n"+stepsData.getDescription());
             }
+            ib_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallback.onClicked(stepsData.getId()+1);
+                }
+            });
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallback=(ingredientsAndStepsFragment.onClick)context;
     }
 }
