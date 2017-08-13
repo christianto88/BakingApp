@@ -28,7 +28,11 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
                 ingredientsData=recipeData.getIngredientsArrayList();
             }
         }
-        recipeFragment rf=new recipeFragment(ingredientsData,stepsData);
+        recipeFragment rf=new recipeFragment();
+        Bundle args=new Bundle();
+        args.putParcelableArrayList("ingre",ingredientsData);
+        args.putParcelableArrayList("step",stepsData);
+        rf.setArguments(args);
         FragmentManager fm=getSupportFragmentManager();
         fm.beginTransaction().add(R.id.my_container,rf).commit();
 
@@ -53,5 +57,11 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
             intentToStartDetailActivity.putExtra("recipeName", recipeData.getRecipeName());
             startActivity(intentToStartDetailActivity);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
     }
 }

@@ -35,15 +35,14 @@ public class recipeFragment extends Fragment implements StepsAdapter.StepsAdapte
     public interface onClick{
         void onClicked(ArrayList<Ingredients> i,Steps s);
     }
-    public recipeFragment(ArrayList<Ingredients> i,ArrayList<Steps> s) {
-        ingredientsData=i;
-        stepsData=s;
-    }
     public recipeFragment(){}
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Bundle args=getArguments();
+        ingredientsData=args.getParcelableArrayList("ingre");
+        stepsData=args.getParcelableArrayList("step");
         final Context context=getContext();
         View rootView=inflater.inflate(R.layout.recipe_fragment,container,false);
         mRecyclerView=(RecyclerView)rootView.findViewById(R.id.steps_recycler);
