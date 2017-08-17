@@ -3,9 +3,10 @@
     <layout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_detail"
@@ -15,55 +16,37 @@
             android:layout_height="wrap_content"
             android:visibility="invisible"
             android:padding="16dp"
-            android:layout_weight="1"
-            tools:layout_editor_absoluteX="12dp"
-            tools:layout_editor_absoluteY="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            />
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/exoplayer"
         android:layout_width="match_parent"
-        android:layout_height="197dp"
-        tools:layout_editor_absoluteX="15dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_detail"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintVertical_bias="0.215"
-        app:layout_constraintLeft_toRightOf="parent"
+        android:layout_height="260dp"
+       android:layout_weight="1"
         android:visibility="invisible"></com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
-
-
-
-
-    <ImageButton
-        android:id="@+id/prev_button"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="bottom|left|end"
-        android:src="@mipmap/ic_launcher_previous"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="413dp"
-        app:layout_constraintTop_toBottomOf="@id/exoplayer"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="16dp"/>
-    <ImageButton
-        android:id="@+id/next_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:src="@mipmap/ic_launcher_next"
-        tools:layout_editor_absoluteX="296dp"
-        tools:layout_editor_absoluteY="413dp"
-        app:layout_constraintTop_toBottomOf="@id/exoplayer"
-        app:layout_constraintLeft_toRightOf="@id/prev_button"
-        android:layout_marginLeft="16dp"/>
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/prev_button"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@mipmap/ic_launcher_previous"/>
+        <ImageButton
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:src="@mipmap/ic_launcher_next"/>
+
+    </LinearLayout>
 
 
 
 
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
 
 </layout>
