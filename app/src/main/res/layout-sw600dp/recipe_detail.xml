@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    >
+    <fragment
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        android:name="com.example.sony.bakingapp.recipeFragment"
+        >
+
+    </fragment>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+
+        android:background="@android:color/darker_gray"></View>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/mycontainer_new">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/tablet_linear">
+
+            <TextView
+                android:id="@+id/tv_detail"
+                android:adjustViewBounds="true"
+                style="@style/TextAppearance.AppCompat.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:padding="16dp"
+                />
+
+            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                android:id="@+id/exoplayer"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_weight="1"
+                android:visibility="invisible"></com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/prev_button"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/ic_launcher_previous"/>
+                <ImageButton
+                    android:id="@+id/next_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:src="@mipmap/ic_launcher_next"/>
+
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
