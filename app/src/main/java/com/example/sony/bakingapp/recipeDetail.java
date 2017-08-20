@@ -35,7 +35,7 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
             if(savedInstanceState==null) {
                 recipeFragment rf=new recipeFragment();
                 FragmentManager fm=getSupportFragmentManager();
-                fm.beginTransaction().add(R.id.my_container,rf);
+                fm.beginTransaction().add(R.id.my_container,rf).commit();
                 ingredientsAndStepsFragment x = new ingredientsAndStepsFragment();
 //                Bundle args = new Bundle();
 //                args.putParcelableArrayList("stepsArray", stepsArrayList);

@@ -41,8 +41,11 @@ public class recipeFragment extends Fragment implements StepsAdapter.StepsAdapte
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Bundle args=getArguments();
-        ingredientsData=args.getParcelableArrayList("ingre");
-        stepsData=args.getParcelableArrayList("step");
+        if(args!=null){
+
+            ingredientsData=args.getParcelableArrayList("ingre");
+            stepsData=args.getParcelableArrayList("step");
+        }
         final Context context=getContext();
         View rootView=inflater.inflate(R.layout.recipe_fragment,container,false);
         mRecyclerView=(RecyclerView)rootView.findViewById(R.id.steps_recycler);
