@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     >
-    <fragment
+    <FrameLayout
         android:layout_width="400dp"
         android:layout_height="match_parent"
         android:id="@+id/my_container"
+        android:name="com.example.sony.bakingapp.recipeFragment"
         >
 
-    </fragment>
+    </FrameLayout>
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"

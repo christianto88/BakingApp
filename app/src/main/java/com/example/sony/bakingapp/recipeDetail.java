@@ -33,12 +33,14 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
         if(findViewById(R.id.tablet_linear)!=null){
             mTwoPane=true;
             if(savedInstanceState==null) {
+                recipeFragment rf=new recipeFragment();
+                FragmentManager fm=getSupportFragmentManager();
+                fm.beginTransaction().add(R.id.my_container,rf);
                 ingredientsAndStepsFragment x = new ingredientsAndStepsFragment();
 //                Bundle args = new Bundle();
 //                args.putParcelableArrayList("stepsArray", stepsArrayList);
 //                args.putParcelable("steps", stepsData);
 //                x.setArguments(args);
-                FragmentManager fm = getSupportFragmentManager();
                 fm.beginTransaction().add(R.id.my_container2, x).commit();
             }
         }
