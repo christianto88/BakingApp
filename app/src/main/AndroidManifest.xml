@@ -20,16 +20,30 @@
         </activity>
         <activity
             android:name=".recipeDetail"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".detailActivity"
-            android:parentActivityName=".recipeDetail"
+        <activity
+            android:name=".detailActivity"
             android:launchMode="singleTop"
-            ></activity>
+            android:parentActivityName=".recipeDetail" />
+
+        <receiver android:name=".bakingAppProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action
+                    android:name=
+                        "android.appwidget.action.APPWIDGET_UPDATE2" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_app_provider_info" />
+        </receiver>
+        <service android:name=".ingredientService" />
     </application>
 
 </manifest>

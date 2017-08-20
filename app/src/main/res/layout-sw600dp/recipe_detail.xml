@@ -7,7 +7,7 @@
     <fragment
         android:layout_width="400dp"
         android:layout_height="match_parent"
-        android:name="com.example.sony.bakingapp.recipeFragment"
+        android:id="@+id/my_container"
         >
 
     </fragment>

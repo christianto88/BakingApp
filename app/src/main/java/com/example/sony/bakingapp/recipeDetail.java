@@ -12,6 +12,7 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
     private Recipe recipeData;
     private ArrayList<Ingredients> ingredientsData;
     private ArrayList<Steps> stepsData;
+     String recipeString="";
     private boolean mTwoPane;
     public recipeDetail(){}
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +52,11 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
         rf.setArguments(args);
         FragmentManager fm=getSupportFragmentManager();
         fm.beginTransaction().add(R.id.my_container,rf).commit();
+    for(int x=0;x<ingredientsData.size();x++){
+        recipeString=recipeString.concat(x+1+". "+ingredientsData.get(x).getQuantity()+ingredientsData.get(x).getMeasure()+"  "+ingredientsData.get(x).getIngredient()+"\n");
 
-
+    }
+    ingredientService.startBakingService(this,recipeString);
     }
 
     @Override
