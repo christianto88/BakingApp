@@ -49,6 +49,7 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
     private SimpleExoPlayerView mPlayerView;
     private MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
+    private boolean tabletMode;
     onClick mCallback;
 
     private void initializeMediaSession() {
@@ -157,85 +158,98 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
         ingredientsData=args.getParcelableArrayList("ingreData");
         stepsData=args.getParcelable("steps");
         stepsArrayList=args.getParcelableArrayList("stepsArray");
+        tabletMode=args.getBoolean("tabletMode");
         int idx=0;
         View rootView=inflater.inflate(R.layout.ingredientsandsteps_fragment,container,false);
         TextView tv1=(TextView)rootView.findViewById(R.id.tv_detail);
         mPlayerView=(SimpleExoPlayerView)rootView.findViewById(R.id.exoplayer);
         ImageButton ib_next=(ImageButton)rootView.findViewById(R.id.next_button);
         ImageButton ib_prev=(ImageButton)rootView.findViewById(R.id.prev_button);
+        if(!(ingredientsData==null&&stepsData==null&&stepsArrayList==null)) {
 
-        if(ingredientsData!=null){
-            for(int a=0;a<ingredientsData.size();a++){
-                tv1.setVisibility(View.VISIBLE);
-                tv1.append(idx+1 +") "+ingredientsData.get(a).getQuantity()+ingredientsData.get(a).getMeasure()+"  "+ingredientsData.get(a).getIngredient()+"\n\n");
-                idx++;
-            }
-            ib_next.setVisibility(View.INVISIBLE);
-            ib_prev.setVisibility(View.INVISIBLE);
-            mPlayerView.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
-            if(!stepsData.getVideoURL().equals("") || !stepsData.getThumbnailURL().equals("")){
-                tv1.setVisibility(View.VISIBLE);
+            if (ingredientsData != null) {
+                for (int a = 0; a < ingredientsData.size(); a++) {
+                    tv1.setVisibility(View.VISIBLE);
+                    tv1.append(idx + 1 + ") " + ingredientsData.get(a).getQuantity() + ingredientsData.get(a).getMeasure() + "  " + ingredientsData.get(a).getIngredient() + "\n\n");
+                    idx++;
+                }
 
-                tv1.append(stepsData.getShortDescription()+"\n"+stepsData.getDescription());
-
-                //EXO PLAYER
-                mPlayerView.requestFocus();
-
-                TrackSelector ts=new DefaultTrackSelector();
-                LoadControl lc=new DefaultLoadControl();
-                mExoPlayer= ExoPlayerFactory.newSimpleInstance(this.getContext(),ts,lc);
-                mPlayerView.setPlayer(mExoPlayer);
-
-                String userAgent= Util.getUserAgent(this.getContext(),"Baking App");
-                MediaSource mSource=new ExtractorMediaSource(Uri.parse(stepsData.getVideoURL()),new DefaultDataSourceFactory(this.getContext(),userAgent),new DefaultExtractorsFactory(),null,null);
-                mExoPlayer.prepare(mSource);
-                mExoPlayer.setPlayWhenReady(true);
-                mPlayerView.setVisibility(View.VISIBLE);
-                initializeMediaSession();
-
-            }else
-            {
                 mPlayerView.setVisibility(View.INVISIBLE);
-                tv1.setVisibility(View.VISIBLE);
-                tv1.append(stepsData.getShortDescription()+"\n"+stepsData.getDescription());
+            } else {
+                if(stepsData!=null) {
+                    ib_next.setVisibility(View.VISIBLE);
+                    ib_prev.setVisibility(View.VISIBLE);
+                    if (!stepsData.getVideoURL().equals("") || !stepsData.getThumbnailURL().equals("")) {
+                        tv1.setVisibility(View.VISIBLE);
+
+                        tv1.append(stepsData.getShortDescription() + "\n" + stepsData.getDescription());
+
+                        //EXO PLAYER
+                        mPlayerView.requestFocus();
+
+                        TrackSelector ts = new DefaultTrackSelector();
+                        LoadControl lc = new DefaultLoadControl();
+                        mExoPlayer = ExoPlayerFactory.newSimpleInstance(this.getContext(), ts, lc);
+                        mPlayerView.setPlayer(mExoPlayer);
+
+                        String userAgent = Util.getUserAgent(this.getContext(), "Baking App");
+                        MediaSource mSource = new ExtractorMediaSource(Uri.parse(stepsData.getVideoURL()), new DefaultDataSourceFactory(this.getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+                        mExoPlayer.prepare(mSource);
+                        mExoPlayer.setPlayWhenReady(true);
+                        mPlayerView.setVisibility(View.VISIBLE);
+                        initializeMediaSession();
+
+                    } else {
+                        mPlayerView.setVisibility(View.INVISIBLE);
+                        tv1.setVisibility(View.VISIBLE);
+                        tv1.append(stepsData.getShortDescription() + "\n" + stepsData.getDescription());
+                    }
+                }
+                if (!tabletMode) {
+
+                    ib_next.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int id = stepsData.getId();
+                            if ((id + 1) < stepsArrayList.size()) {
+                                mCallback.onClicked(stepsData.getId() + 1);
+                                if (mExoPlayer != null) {
+                                    mExoPlayer.stop();
+                                }
+                            }
+                        }
+                    });
+                    ib_prev.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int id = stepsData.getId();
+                            if (id != 0) {
+                                mCallback.onClicked(stepsData.getId() - 1);
+                                if (mExoPlayer != null) {
+                                    mExoPlayer.stop();
+                                }
+                            }
+                        }
+                    });
+                }
+                else{
+                    ib_next.setVisibility(View.INVISIBLE);
+                    ib_prev.setVisibility(View.INVISIBLE);
+                }
+
             }
-            ib_next.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int id=stepsData.getId();
-                    if((id+1)<stepsArrayList.size()){
-                        mCallback.onClicked(stepsData.getId()+1);
-                        if(mExoPlayer!=null) {
-                            mExoPlayer.stop();
-                        }
-                    }
-                }
-            });
-            ib_prev.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int id=stepsData.getId();
-                    if(id!=0){
-                        mCallback.onClicked(stepsData.getId()-1);
-                        if(mExoPlayer!=null) {
-                            mExoPlayer.stop();
-                        }
-                    }
-                }
-            });
+
         }
-
-
         return rootView;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mCallback=(ingredientsAndStepsFragment.onClick)context;
+        if(!(context instanceof recipeDetail)){
+
+            mCallback = (ingredientsAndStepsFragment.onClick) context;
+        }
     }
 
     @Override

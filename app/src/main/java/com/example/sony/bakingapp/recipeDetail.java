@@ -37,10 +37,12 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
                 FragmentManager fm=getSupportFragmentManager();
                 fm.beginTransaction().add(R.id.my_container,rf).commit();
                 ingredientsAndStepsFragment x = new ingredientsAndStepsFragment();
-//                Bundle args = new Bundle();
-//                args.putParcelableArrayList("stepsArray", stepsArrayList);
+
+                Bundle args = new Bundle();
+                args.putBoolean("tabletMode",true);
+                args.putParcelableArrayList("stepsArray", stepsData);
 //                args.putParcelable("steps", stepsData);
-//                x.setArguments(args);
+                x.setArguments(args);
                 fm.beginTransaction().add(R.id.my_container2, x).commit();
             }
         }
@@ -68,8 +70,9 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
                 ingredientsAndStepsFragment x = new ingredientsAndStepsFragment();
                 Bundle args = new Bundle();
                 args.putParcelableArrayList("ingreData", i);
+                args.putBoolean("tabletMode",true);
                 x.setArguments(args);
-                getSupportFragmentManager().beginTransaction().replace(R.id.mycontainer_new,x).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.my_container2,x).commit();
             }else {
                 Class destinationClass = detailActivity.class;
                 Intent intentToStartDetailActivity = new Intent(this.getApplicationContext(), destinationClass);
@@ -86,7 +89,7 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
                 args.putParcelableArrayList("stepsArray",stepsData);
                 args.putParcelable("steps",s);
                 x.setArguments(args);
-                getSupportFragmentManager().beginTransaction().replace(R.id.mycontainer_new,x).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.my_container2,x).commit();
             }
             else {
                 Class destinationClass = detailActivity.class;
