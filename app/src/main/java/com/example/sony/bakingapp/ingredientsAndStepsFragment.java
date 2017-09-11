@@ -253,6 +253,13 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mExoPlayer.stop();
+        mExoPlayer.release();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
 //        mExoPlayer.stop();

@@ -3,6 +3,7 @@ package com.example.sony.bakingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,8 @@ public class recipeFragment extends Fragment implements StepsAdapter.StepsAdapte
     private RecyclerView mRecyclerView;
     private StepsAdapter mStepsAdapter;
     onClick mCallback;
+    private Parcelable layoutManagerSavedState;
+    private int lastFirstVisiblePosition;
 
     @Override
     public void onClick(Steps stepsData) {
@@ -38,6 +41,19 @@ public class recipeFragment extends Fragment implements StepsAdapter.StepsAdapte
     public recipeFragment(){}
 
     @Nullable
+
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        Parcelable x=mRecyclerView.getLayoutManager().onSaveInstanceState();
+//        outState.putParcelable("layout",x);
+//    }
+//
+//    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        super.onViewStateRestored(savedInstanceState);
+//        layoutManagerSavedState=savedInstanceState.getParcelable("layout");
+//    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Bundle args=getArguments();
@@ -64,6 +80,18 @@ public class recipeFragment extends Fragment implements StepsAdapter.StepsAdapte
         mStepsAdapter.setstepsData(stepsData);
         mRecyclerView.setAdapter(mStepsAdapter);
         return rootView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+         lastFirstVisiblePosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
     }
 
     @Override

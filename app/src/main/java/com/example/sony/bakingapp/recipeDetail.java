@@ -1,12 +1,17 @@
 package com.example.sony.bakingapp;
 
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import static com.example.sony.bakingapp.R.styleable.Toolbar;
 
 public class recipeDetail extends AppCompatActivity implements recipeFragment.onClick{
     private Recipe recipeData;
@@ -15,16 +20,35 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
      String recipeString="";
     private boolean mTwoPane;
     public recipeDetail(){}
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+
+        outState.putParcelable("data",recipeData);
+
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_detail);
-
+        if(savedInstanceState!=null){
+            recipeData=savedInstanceState.getParcelable("data");
+        }
 
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra("recipe")) {
                 recipeData = intentThatStartedThisActivity.getParcelableExtra("recipe");
+
+                android.support.v7.widget.Toolbar x=(android.support.v7.widget.Toolbar)findViewById(R.id.my_toolbar);
+                setSupportActionBar(x);
                 getSupportActionBar().setTitle(recipeData.getRecipeName());
                 stepsData=recipeData.getStepsArrayList();
                 ingredientsData=recipeData.getIngredientsArrayList();
@@ -105,6 +129,6 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        finish();
+//        finish();
     }
 }
