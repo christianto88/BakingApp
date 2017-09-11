@@ -33,14 +33,9 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
     }
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_detail);
-        if(savedInstanceState!=null){
-            recipeData=savedInstanceState.getParcelable("data");
-        }
-
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
@@ -54,6 +49,11 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
                 ingredientsData=recipeData.getIngredientsArrayList();
             }
         }
+        if(savedInstanceState!=null){
+            recipeData=savedInstanceState.getParcelable("data");
+        }
+
+
         if(findViewById(R.id.tablet_linear)!=null){
             mTwoPane=true;
             if(savedInstanceState==null) {
@@ -73,13 +73,16 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
         else{
             mTwoPane=false;
         }
-        recipeFragment rf=new recipeFragment();
-        Bundle args=new Bundle();
-        args.putParcelableArrayList("ingre",ingredientsData);
-        args.putParcelableArrayList("step",stepsData);
-        rf.setArguments(args);
-        FragmentManager fm=getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.my_container,rf).commit();
+        if(savedInstanceState==null){
+            recipeFragment rf=new recipeFragment();
+            Bundle args=new Bundle();
+            args.putParcelableArrayList("ingre",ingredientsData);
+            args.putParcelableArrayList("step",stepsData);
+            rf.setArguments(args);
+            FragmentManager fm=getSupportFragmentManager();
+            fm.beginTransaction().add(R.id.my_container,rf).commit();
+        }
+
     for(int x=0;x<ingredientsData.size();x++){
         recipeString=recipeString.concat(x+1+". "+ingredientsData.get(x).getQuantity()+ingredientsData.get(x).getMeasure()+"  "+ingredientsData.get(x).getIngredient()+"\n");
 

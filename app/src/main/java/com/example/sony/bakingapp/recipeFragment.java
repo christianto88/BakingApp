@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,18 +41,30 @@ public class recipeFragment extends Fragment implements StepsAdapter.StepsAdapte
     }
     public recipeFragment(){}
 
-    @Nullable
 
-//    protected void onSaveInstanceState(Bundle outState) {
+//    public on void onSaveInstanceState(Bundle outState) {
 //        super.onSaveInstanceState(outState);
 //        Parcelable x=mRecyclerView.getLayoutManager().onSaveInstanceState();
 //        outState.putParcelable("layout",x);
 //    }
-//
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("scrollLoc",lastFirstVisiblePosition);
+        super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        lastFirstVisiblePosition=savedInstanceState.getInt("scrollLoc");
+    }
+
 //    @Override
 //    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
 //        super.onViewStateRestored(savedInstanceState);
-//        layoutManagerSavedState=savedInstanceState.getParcelable("layout");
+////        layoutManagerSavedState=savedInstanceState.getParcelable("layout");
 //    }
 
     @Override
@@ -86,6 +99,7 @@ public class recipeFragment extends Fragment implements StepsAdapter.StepsAdapte
     public void onPause() {
         super.onPause();
          lastFirstVisiblePosition = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+        Log.d("LOG","lat visible:"+lastFirstVisiblePosition);
     }
 
     @Override
