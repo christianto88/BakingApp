@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false">
@@ -13,70 +13,69 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-    <FrameLayout
-        android:layout_width="400dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/my_container"
-        android:name="com.example.sony.bakingapp.recipeFragment"
-        >
+        android:orientation="horizontal">
 
-    </FrameLayout>
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-
-        android:background="@android:color/darker_gray"></View>
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/my_container2">
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
+        <FrameLayout
+            android:layout_width="400dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/tablet_linear">
+            android:id="@+id/my_container"
+            android:name="com.example.sony.bakingapp.recipeFragment"
+            >
 
-            <TextView
-                android:id="@+id/tv_detail"
-                android:adjustViewBounds="true"
-                style="@style/TextAppearance.AppCompat.Large"
+        </FrameLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"></View>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/my_container2">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:padding="16dp"
-                />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:id="@+id/tablet_linear">
 
-            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-                android:id="@+id/exoplayer"
-                android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:layout_weight="1"
-                android:visibility="invisible"></com.google.android.exoplayer2.ui.SimpleExoPlayerView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/prev_button"
+                <TextView
+                    android:id="@+id/tv_detail"
+                    android:adjustViewBounds="true"
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:src="@mipmap/ic_launcher_previous"/>
-                <ImageButton
-                    android:id="@+id/next_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:src="@mipmap/ic_launcher_next"/>
+                    android:visibility="invisible"
+                    android:padding="16dp"
+                    />
 
+                <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                    android:id="@+id/exoplayer"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:layout_weight="1"
+                    android:visibility="invisible"></com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--&lt;!&ndash;<ImageButton&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/prev_button"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:src="@mipmap/ic_launcher_previous"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<ImageButton&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/next_button"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginLeft="16dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:src="@mipmap/ic_launcher_next"/>&ndash;&gt;-->
+                <!--</LinearLayout>-->
             </LinearLayout>
-
-
-
-
-
-        </LinearLayout>
-    </FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -76,6 +76,7 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
             Bundle args=new Bundle();
             args.putParcelableArrayList("ingre",ingredientsData);
             args.putParcelableArrayList("step",stepsData);
+            args.putBoolean("tabletMode",mTwoPane);
             rf.setArguments(args);
             FragmentManager fm=getSupportFragmentManager();
             fm.beginTransaction().add(R.id.my_container,rf).commit();
@@ -96,7 +97,6 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
                 ingredientsAndStepsFragment x = new ingredientsAndStepsFragment();
                 Bundle args = new Bundle();
                 args.putParcelableArrayList("ingreData", i);
-                args.putBoolean("tabletMode",true);
                 x.setArguments(args);
                 getSupportFragmentManager().beginTransaction().replace(R.id.my_container2,x).commit();
             }else {
@@ -114,6 +114,7 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
                 Bundle args = new Bundle();
                 args.putParcelableArrayList("stepsArray",stepsData);
                 args.putParcelable("steps",s);
+                args.putBoolean("tabletMode",true);
                 x.setArguments(args);
                 getSupportFragmentManager().beginTransaction().replace(R.id.my_container2,x).commit();
             }

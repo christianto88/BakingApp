@@ -212,8 +212,10 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
                 mPlayerView.setVisibility(View.INVISIBLE);
             } else {
                 if(stepsData!=null) {
-                    ib_next.setVisibility(View.VISIBLE);
-                    ib_prev.setVisibility(View.VISIBLE);
+                    if(!tabletMode) {
+                        ib_next.setVisibility(View.VISIBLE);
+                        ib_prev.setVisibility(View.VISIBLE);
+                    }
                     if (!stepsData.getVideoURL().equals("") || !stepsData.getThumbnailURL().equals("")) {
                         tv1.setVisibility(View.VISIBLE);
                         if(!stepsData.getThumbnailURL().equals("")){
@@ -258,7 +260,8 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
                         public void onClick(View v) {
                             int id = stepsData.getId();
                             if ((id + 1) < stepsArrayList.size()) {
-                                mCallback.onClicked(stepsData.getId() + 1);
+                                if(!tabletMode){                                mCallback.onClicked(stepsData.getId() + 1);
+                                }
                                 if (mExoPlayer != null) {
                                     mExoPlayer.stop();
                                 }
@@ -270,7 +273,8 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
                         public void onClick(View v) {
                             int id = stepsData.getId();
                             if (id != 0) {
-                                mCallback.onClicked(stepsData.getId() - 1);
+                                if(!tabletMode){mCallback.onClicked(stepsData.getId() - 1);}
+
                                 if (mExoPlayer != null) {
                                     mExoPlayer.stop();
                                 }
@@ -293,7 +297,6 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
     public void onAttach(Context context) {
         super.onAttach(context);
         if(!(context instanceof recipeDetail)){
-
             mCallback = (ingredientsAndStepsFragment.onClick) context;
         }
     }
@@ -303,13 +306,11 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
         super.onPause();
         if(mExoPlayer!=null){
             position = mExoPlayer.getCurrentPosition();
-            mPlayVideoWhenForegrounded = mExoPlayer.getPlayWhenReady();
-            mExoPlayer.stop();
-            mExoPlayer.release();
-            mExoPlayer=null;
-
+//            mPlayVideoWhenForegrounded = mExoPlayer.getPlayWhenReady();
         }
-
+        mExoPlayer.stop();
+        mExoPlayer.release();
+        mExoPlayer=null;
     }
 
     @Override
@@ -323,11 +324,9 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(this.getContext(), ts, lc);
             mPlayerView.setPlayer(mExoPlayer);
             String userAgent = Util.getUserAgent(this.getContext(), "Baking App");
-//            videoUri=Uri.parse(stepsData.getVideoURL());
             MediaSource mSource = new ExtractorMediaSource(videoUri, new DefaultDataSourceFactory(this.getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             if (position != C.TIME_UNSET) {
                 mExoPlayer.seekTo(position);
-//                            mExoPlayer.setPlayWhenReady(mPlayVideoWhenForegrounded);
             }
             mExoPlayer.prepare(mSource);
             mExoPlayer.setPlayWhenReady(true);
