@@ -13,8 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -33,6 +35,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -51,6 +54,9 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
     private PlaybackStateCompat.Builder mStateBuilder;
     private boolean tabletMode;
     onClick mCallback;
+    private  long position;
+    private boolean mPlayVideoWhenForegrounded;
+    Uri videoUri;
 
     private void initializeMediaSession() {
 
@@ -151,10 +157,38 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
     }
     public ingredientsAndStepsFragment(){}
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("position",position);
+        outState.putBoolean("readyStatus",mPlayVideoWhenForegrounded);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if(savedInstanceState!=null)
+        {position = savedInstanceState.getLong("position");}
+
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState!=null) {
+            position = savedInstanceState.getLong("position");
+            mPlayVideoWhenForegrounded=savedInstanceState.getBoolean("readyStatus");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle args=getArguments();
+
         ingredientsData=args.getParcelableArrayList("ingreData");
         stepsData=args.getParcelable("steps");
         stepsArrayList=args.getParcelableArrayList("stepsArray");
@@ -162,6 +196,7 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
         int idx=0;
         View rootView=inflater.inflate(R.layout.ingredientsandsteps_fragment,container,false);
         TextView tv1=(TextView)rootView.findViewById(R.id.tv_detail);
+        ImageView iv=(ImageView)rootView.findViewById(R.id.iv_steps);
         mPlayerView=(SimpleExoPlayerView)rootView.findViewById(R.id.exoplayer);
         ImageButton ib_next=(ImageButton)rootView.findViewById(R.id.next_button);
         ImageButton ib_prev=(ImageButton)rootView.findViewById(R.id.prev_button);
@@ -181,7 +216,11 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
                     ib_prev.setVisibility(View.VISIBLE);
                     if (!stepsData.getVideoURL().equals("") || !stepsData.getThumbnailURL().equals("")) {
                         tv1.setVisibility(View.VISIBLE);
+                        if(!stepsData.getThumbnailURL().equals("")){
+                            //load picasso
+                            Picasso.with(getContext()).load(stepsData.getThumbnailURL()).into(iv);
 
+                        }
                         tv1.append(stepsData.getShortDescription() + "\n" + stepsData.getDescription());
 
                         //EXO PLAYER
@@ -193,10 +232,17 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
                         mPlayerView.setPlayer(mExoPlayer);
 
                         String userAgent = Util.getUserAgent(this.getContext(), "Baking App");
-                        MediaSource mSource = new ExtractorMediaSource(Uri.parse(stepsData.getVideoURL()), new DefaultDataSourceFactory(this.getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-                        mExoPlayer.prepare(mSource);
-                        mExoPlayer.setPlayWhenReady(true);
-                        mPlayerView.setVisibility(View.VISIBLE);
+                        videoUri=Uri.parse(stepsData.getVideoURL());
+                        MediaSource mSource = new ExtractorMediaSource(videoUri, new DefaultDataSourceFactory(this.getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+                        if (position != C.TIME_UNSET) {
+                            mExoPlayer.seekTo(position);
+//                            mExoPlayer.setPlayWhenReady(mPlayVideoWhenForegrounded);
+                        }
+                            mExoPlayer.prepare(mSource);
+                            mExoPlayer.setPlayWhenReady(true);
+                            mPlayerView.setVisibility(View.VISIBLE);
+
+
                         initializeMediaSession();
 
                     } else {
@@ -255,16 +301,43 @@ public class ingredientsAndStepsFragment extends Fragment implements ExoPlayer.E
     @Override
     public void onPause() {
         super.onPause();
-        mExoPlayer.stop();
-        mExoPlayer.release();
+        if(mExoPlayer!=null){
+            position = mExoPlayer.getCurrentPosition();
+            mPlayVideoWhenForegrounded = mExoPlayer.getPlayWhenReady();
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer=null;
+
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (videoUri != null){
+
+            TrackSelector ts = new DefaultTrackSelector();
+            LoadControl lc = new DefaultLoadControl();
+            mExoPlayer = ExoPlayerFactory.newSimpleInstance(this.getContext(), ts, lc);
+            mPlayerView.setPlayer(mExoPlayer);
+            String userAgent = Util.getUserAgent(this.getContext(), "Baking App");
+//            videoUri=Uri.parse(stepsData.getVideoURL());
+            MediaSource mSource = new ExtractorMediaSource(videoUri, new DefaultDataSourceFactory(this.getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+            if (position != C.TIME_UNSET) {
+                mExoPlayer.seekTo(position);
+//                            mExoPlayer.setPlayWhenReady(mPlayVideoWhenForegrounded);
+            }
+            mExoPlayer.prepare(mSource);
+            mExoPlayer.setPlayWhenReady(true);
+            mPlayerView.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        mExoPlayer.stop();
-//        mExoPlayer.release();
-//        mExoPlayer = null;
-//        mMediaSession.setActive(false);
     }
 }

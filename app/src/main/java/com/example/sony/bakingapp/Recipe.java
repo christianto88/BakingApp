@@ -14,9 +14,11 @@ public class Recipe implements Parcelable{
     ArrayList<Ingredients> ingredientsArrayList;
 
 public Recipe(){}
+
     protected Recipe(Parcel in) {
         servings = in.readInt();
         recipeName = in.readString();
+        image=in.readString();
         stepsArrayList=in.createTypedArrayList(Steps.CREATOR);
         ingredientsArrayList=in.createTypedArrayList(Ingredients.CREATOR);
     }
@@ -68,6 +70,15 @@ public Recipe(){}
     }
 
     private String recipeName;
+private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     @Override
     public int describeContents() {
@@ -78,6 +89,7 @@ public Recipe(){}
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(servings);
         dest.writeString(recipeName);
+        dest.writeString(image);
         dest.writeTypedList(stepsArrayList);
         dest.writeTypedList(ingredientsArrayList);
     }

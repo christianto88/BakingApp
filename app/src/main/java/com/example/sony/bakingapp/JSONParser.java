@@ -51,6 +51,7 @@ public final class JSONParser {
                 Recipe r=new Recipe();
                 r.setRecipeName(recipeArray.getJSONObject(i).getString("name"));
                 r.setServings(recipeArray.getJSONObject(i).getInt("servings"));
+                r.setImage(recipeArray.getJSONObject(i).getString("image"));
                r.setIngredientsArrayList(ingredientsArrayList);
                 r.setStepsArrayList(stepsArrayList);
                 parsedRecipeData.add(r);

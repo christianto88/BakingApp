@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapter
     public void onBindViewHolder(StepsAdapter.StepsAdapterViewHolder holder, int position) {
 
         holder.stepsText.setText("Steps #"+ ++position);
+
     }
 
     @Override
@@ -51,9 +53,11 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsAdapter
 
     public class StepsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView stepsText;
+        private ImageView stepsImg;
         public StepsAdapterViewHolder(View itemView) {
             super(itemView);
             stepsText=(TextView)itemView.findViewById(R.id.tv_steps);
+            stepsImg=(ImageView)itemView.findViewById(R.id.iv_steps);
             itemView.setOnClickListener(this);
         }
 

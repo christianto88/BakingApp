@@ -23,36 +23,34 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-        outState.putParcelable("data",recipeData);
-
         super.onSaveInstanceState(outState, outPersistentState);
+        outState.putParcelable("data",recipeData);
+        outState.putParcelableArrayList("stepsData",stepsData);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
+        recipeData=savedInstanceState.getParcelable("data");
+        stepsData=savedInstanceState.getParcelableArrayList("stepsData");
     }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_detail);
         Intent intentThatStartedThisActivity = getIntent();
-
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra("recipe")) {
                 recipeData = intentThatStartedThisActivity.getParcelableExtra("recipe");
-
-                android.support.v7.widget.Toolbar x=(android.support.v7.widget.Toolbar)findViewById(R.id.my_toolbar);
+                Toolbar x=(Toolbar)findViewById(R.id.my_toolbar);
                 setSupportActionBar(x);
                 getSupportActionBar().setTitle(recipeData.getRecipeName());
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 stepsData=recipeData.getStepsArrayList();
                 ingredientsData=recipeData.getIngredientsArrayList();
             }
         }
-        if(savedInstanceState!=null){
-            recipeData=savedInstanceState.getParcelable("data");
-        }
-
 
         if(findViewById(R.id.tablet_linear)!=null){
             mTwoPane=true;
@@ -92,6 +90,7 @@ public class recipeDetail extends AppCompatActivity implements recipeFragment.on
 
     @Override
     public void onClicked(ArrayList<Ingredients> i,Steps s) {
+
         if(i!=null) {
             if(mTwoPane){
                 ingredientsAndStepsFragment x = new ingredientsAndStepsFragment();
